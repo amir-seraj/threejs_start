@@ -12,11 +12,41 @@ window.addEventListener("mousemove", (e) => {
   cursor.y = -(e.clientY / Sizes.height - 0.5);
 });
 
-// Threejs
+// Size
 const Sizes = {
-  width: 900,
-  height: 800,
+  width: window.innerWidth,
+  height: window.innerHeight,
 };
+//window size
+window.addEventListener("resize", () => {
+  Sizes.width = window.innerWidth;
+  Sizes.height = window.innerHeight;
+
+  //update camera
+  camera.aspect = Sizes.width / Sizes.height;
+  camera.updateProjectionMatrix();
+  //update renderer
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(Sizes.width, Sizes.height);
+});
+window.addEventListener("dblclick", () => {
+  const fullscreenElement =
+    document.fullscreenElement || document.webkitFullscreenElement;
+  if (!fullscreenElement) {
+    if (canvas.requestFullscreen) {
+      canvas.requestFullscreen();
+    } else if (canvas.webkitFullscreenElement) {
+      canvas.webkitRequestFullscreen();
+    }
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    }
+  }
+});
+// Threejs
 const scene = new THREE.Scene();
 
 const geometry = new THREE.BoxGeometry(1, 1, 1, 5, 5, 5);
