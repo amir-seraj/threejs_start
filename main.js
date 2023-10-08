@@ -48,9 +48,30 @@ window.addEventListener("dblclick", () => {
 });
 // Threejs
 const scene = new THREE.Scene();
+const geometry = new THREE.BufferGeometry();
 
-const geometry = new THREE.BoxGeometry(1, 1, 1, 5, 5, 5);
-const material = new THREE.MeshBasicMaterial({ color: 0x693a00 });
+// const positionArray = new Float32Array(9);
+// positionArray.forEach((i) => (i = 0));
+// positionArray[4] = 1;
+// positionArray[6] = 1;
+// const positionAttribute = new THREE.BufferAttribute(positionArray, 3);
+// geometry.setAttribute("position", positionAttribute);
+// const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2);
+
+const count = 50;
+const positionArray = new Float32Array(count * 3 * 3);
+
+for (let index = 0; index < count * 3 * 3; index++) {
+  positionArray[index] = Math.random();
+}
+
+const positionAttribute = new THREE.BufferAttribute(positionArray, 3);
+geometry.setAttribute("position", positionAttribute);
+
+const material = new THREE.MeshBasicMaterial({
+  color: 0x693a00,
+  wireframe: true,
+});
 const mesh = new THREE.Mesh(geometry, material);
 
 scene.add(mesh);
